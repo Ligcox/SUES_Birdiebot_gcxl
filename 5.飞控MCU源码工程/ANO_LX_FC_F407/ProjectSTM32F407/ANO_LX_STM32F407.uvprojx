@@ -468,11 +468,6 @@
               <FileType>1</FileType>
               <FilePath>..\FcSrc\User_TJ.c</FilePath>
             </File>
-            <File>
-              <FileName>Uart3_cheshi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\5.飞控MCU源码工程 - 副本\ANO_LX_FC_F407\FcSrc\Uart3_cheshi.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

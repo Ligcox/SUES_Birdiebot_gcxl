@@ -8,7 +8,6 @@
 ".\build\lx_fc_fun.o"
 ".\build\lx_fc_state.o"
 ".\build\user_tj.o"
-".\build\uart3_cheshi.o"
 ".\build\drv_bsp.o"
 ".\build\ano_math.o"
 ".\build\drv_anoof.o"

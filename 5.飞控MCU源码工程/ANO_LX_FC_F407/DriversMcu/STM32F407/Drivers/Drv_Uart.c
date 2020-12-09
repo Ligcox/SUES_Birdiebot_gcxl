@@ -365,6 +365,7 @@ void Usart3_IRQ(void)
 
     if (USART3->SR & USART_SR_ORE) //ORE中断
         com_data = USART3->DR;
+		drvU3GetByte(com_data);
 
     //接收中断
     if (USART_GetITStatus(USART3, USART_IT_RXNE))
@@ -372,6 +373,7 @@ void Usart3_IRQ(void)
         USART_ClearITPendingBit(USART3, USART_IT_RXNE); //清除中断标志
         com_data = USART3->DR;
 		drvU3GetByte(com_data);
+			USART_SendData(USART3,com_data);
     }
     //发送（进入移位）中断
     if (USART_GetITStatus(USART3, USART_IT_TXE))

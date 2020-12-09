@@ -58,9 +58,7 @@ static void Loop_20Hz(void) //50ms执行一次
 
 static void Loop_2Hz(void) //500ms执行一次
 {
-	static s16 _tmp = 0;
-	ANODT_SendF1(_tmp, _tmp+100, _tmp+200);
-	_tmp += 50;
+
 }
 //////////////////////////////////////////////////////////////////////
 //调度器初始化
