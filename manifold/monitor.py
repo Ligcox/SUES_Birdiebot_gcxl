@@ -18,6 +18,3 @@ class Monitor(object):
                 print("{:10}: {}".format(k, v))
             else:
                 print("{:10}: {:02X}".format(k, v))
-
-
-                
