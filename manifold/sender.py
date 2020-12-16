@@ -3,7 +3,7 @@ import serial
 import copy
 
 from monitor import *
-from communication_data import *
+from communicationData import *
 
 
 class Communication_LX():
@@ -20,6 +20,17 @@ class Communication_LX():
         self.monitor = Monitor()
         self.INFO["D_ADDR"] = d_addr
         self.INFO["ID"] = id
+
+    def setDATA(self, data):
+        '''
+        初始化传送器中的data信息
+        '''
+        for i in data:
+            if i<255:
+                  self.INFO["DATA"].append(i)
+            else:
+                for j in range((i // 256)+1):
+                    self.INFO["DATA"].append(i<<(8*j) & 0xFF)
 
     def getInfo(self):
         '''获得十六进制的长度的文件
@@ -67,12 +78,7 @@ class LX_Sender(Communication_LX):
         '''
         初始化传送器中的data信息
         '''
-        for i in data:
-            if i<255:
-                  self.INFO["DATA"].append(i)
-            else:
-                for j in range((i // 256)+1):
-                    self.INFO["DATA"].append(i<<(8*j) & 0xFF)
+        super().setDATA(data)
 
         self.INFO["LEN"] = len(self.INFO["DATA"])
 
@@ -80,18 +86,32 @@ class LX_Receiver(Communication_LX):
     '''
     飞控数据接收器
     '''
-    def __init__(self, d_addr, id, data):
-        super().__init__(d_addr, id)
-        self.setDATA(data)
-        self.sumcheck_cal()
+    def __init__(self, info):
+        super().__init__(d_addr = info[1], id = info[2])
+        self.INFO["LEN"] = info[3]
+        super.setDATA(info[3, -2])
+        self.receive_SUM_CHECK, self.receive_ADD_CHECK = info[-2], info[-1]
+        # self.sumcheck_cal()
 
-    
     def sumcheck_cal(self):
-        res = super.sumcheck_cal()
-        if res != receive_SUM_CHECK, receive_ADD_CHECK:
-            self.__del__()
+        res = super().sumcheck_cal()
+        print(res)
+        print(self.receive_SUM_CHECK, self.receive_ADD_CHECK)
+        if res != (self.receive_SUM_CHECK, self.receive_ADD_CHECK):
+            pass
+            # self.__del__()
+        else:
+            self.display()
 
-    def __del__(self):
-            print("data error!!")
+    def dispaly(self):
+        if self.INFO["ID"] == 0x07:
+            print("飞控速度：x{}  y{}  z{}".format(
+                self.INFO["DATA"][0],
+                self.INFO["DATA"][1],
+                self.INFO["DATA"][2]
+                ), end="\t")
+
+    # def __del__(self):
+    #         print("data error!!")
 
 
